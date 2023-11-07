@@ -72,7 +72,7 @@ export const Card = props => {
 
   return (
 
-    <a target='_blank' href={`${p.product_url}?&_encoding=UTF8&tag=fabriciodel0c-20`} rel="noreferrer" >
+    <a target='_blank' href={`${p.product_url}?&_encoding=UTF8&tag=fabiolima31-20`} rel="noreferrer" >
       <Container>
         <Img>
           <img src={p.product_photo} alt={p.product_title} />
