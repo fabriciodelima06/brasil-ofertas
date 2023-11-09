@@ -22,7 +22,6 @@ export async function GET(req) {
         html = await response.text()
         $ = cheerio.load(html)
         products = $('div[data-asin]:not([data-asin=""])')
-        console.log(count)
         count++
     }
 
