@@ -1,5 +1,5 @@
 {
-  "name": "brasil-ofertas",
+  "name": "ofertas-hoje",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,8 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-star-ratings": "^2.3.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",

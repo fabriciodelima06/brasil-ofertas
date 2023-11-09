@@ -1,6 +1,8 @@
 import { BsSearch } from 'react-icons/bs';
 
-export const Header = props => {
+export const Header = ({ TITLE }) => {
+
+    const titles = TITLE.split(' ')
 
     return (
         <header id='theme-header' className='theme-header header-layout-1 main-nav-light main-nav-default-light main-nav-below no-stream-item top-nav-active top-nav-light top-nav-default-light top-nav-above has-shadow has-normal-width-logo mobile-header-default'>
@@ -19,16 +21,16 @@ export const Header = props => {
                                 justifyContent: 'space-between',
                                 paddingBottom: '15px',
                             }}>
-                                <div 
-                                    id='logo' 
+                                <div
+                                    id='logo'
                                     className='image-logo'
                                     style={{
                                         marginBottom: '0 !important',
                                     }}
                                 >
-                                    <a title='Brasil Ofertas' href='/'>
-                                        <h1>Brasil<span style={{ color: '#0669ff' }}>Ofertas</span></h1>
-                                        <h1 className='h1-off'>Brasil Ofertas</h1>
+                                    <a title={TITLE} href='/'>
+                                        <h1>{titles[0]}<span style={{ color: '#0669ff' }}>{titles[1]}</span></h1>
+                                        <h1 className='h1-off'>{TITLE}</h1>
                                     </a>
                                 </div>
 
@@ -40,16 +42,16 @@ export const Header = props => {
                                         display: 'flex',
                                         justifyContent: 'flex-end',
                                     }}>
-                                        <input 
+                                        <input
                                             style={{
                                                 width: '100%',
                                                 minWidth: '230px',
                                                 maxWidth: '500px'
                                             }}
-                                            id='search-input' 
-                                            type='text' 
-                                            name='k' 
-                                            title='Procurar por' 
+                                            id='search-input'
+                                            type='text'
+                                            name='k'
+                                            title='Procurar por'
                                             placeholder='Procurar por'
                                         />
                                         <button id='search-submit' type='submit'>

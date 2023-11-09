@@ -22,7 +22,9 @@ const scraping = html => {
             data.push({
                 product_photo: img.attr('src'),
                 product_title: title.first().text().trim(),
+                product_price_number: Number(price.first().text().trim().substring(3).replaceAll('.', '').replaceAll(',', '.')),
                 product_price: price.first().text().trim(),
+                product_original_price_number: Number(priceOriginal.first().text().trim().substring(3).replaceAll('.', '').replaceAll(',', '.')),
                 product_original_price: priceOriginal.first().text().trim(),
                 product_url: url,
                 product_star_rating: (star_rating.attr('aria-label') || '').split(' ')[0].replace(',', '.') || 0,
@@ -31,9 +33,7 @@ const scraping = html => {
         }
     }
 
-    // console.log(data[0])
-
-    return data
+    return data.sort((a, b) => a.product_price_number - b.product_price_number)
 }
 
 export default scraping

@@ -6,6 +6,19 @@ export async function GET(req) {
     let searchParams = url.searchParams.get("k")
     // searchParams = searchParams ? `?k=${searchParams}` : ''
 
+    // const amazon_url = `https://www.amazon.com.br/s${searchParams}`
+
+    // const head = {
+    //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+    // };
+
+    // const data = await unirest.get(amazon_url).headers(head)
+
+    // // const newData = scraping(data.body)
+    // // return new Response(JSON.stringify(newData));
+
+    // return new Response(data.body);
+
     const uri = `https://www.amazon.com.br/s/ref=nb_sb_noss?__mk_pt_BR=ÅMÅŽÕÑ&url=search-alias%3Daps&field-keywords=${searchParams}`
 
     let response = await fetch(uri)

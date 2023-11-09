@@ -66,13 +66,10 @@ const Rating = styled.div`
   color: #666;
 `
 
-export const Card = props => {
-
-  const { p } = props
+export const Card = ({ p, TAG_ID }) => {
 
   return (
-
-    <a target='_blank' href={`${p.product_url}?&_encoding=UTF8&tag=fabiolima31-20`} rel="noreferrer" >
+    <a target='_blank' href={`${p.product_url}?&_encoding=UTF8&tag=${TAG_ID || 'fabriciodel0c-20'}`} rel="noreferrer" >
       <Container>
         <Img>
           <img src={p.product_photo} alt={p.product_title} />
@@ -82,7 +79,7 @@ export const Card = props => {
           <Description>
             <Title title={p.product_title}>{p.product_title}</Title>
             <div>
-              {p.product_original_price > p.product_price &&
+              {p.product_original_price_number > p.product_price_number &&
                 <ValueOriginal>
                   {p.product_original_price}
                 </ValueOriginal>}
