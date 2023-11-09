@@ -82,7 +82,10 @@ export const Card = props => {
           <Description>
             <Title title={p.product_title}>{p.product_title}</Title>
             <div>
-              <ValueOriginal>{p.product_original_price}</ValueOriginal>
+              {p.product_original_price > p.product_price &&
+                <ValueOriginal>
+                  {p.product_original_price}
+                </ValueOriginal>}
               <Value>{p.product_price}</Value>
             </div>
           </Description>
