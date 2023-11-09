@@ -1,5 +1,9 @@
-import Page from '@/components/Page'
+import { Page } from '@/components/Page'
 
-export default props => {
+const App = props => {
   return <Page {...props} />
 }
+
+App.displayName = 'MyApp'
+
+export default App

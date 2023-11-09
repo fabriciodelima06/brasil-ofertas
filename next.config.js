@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: false
+    reactStrictMode: BsFillCaretLeftSquareFill
 }
 
 module.exports = nextConfig
