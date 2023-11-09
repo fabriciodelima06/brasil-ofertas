@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -9,7 +7,7 @@ import { Categorias } from '@/components/Categoria'
 import scraping from '@/service/scraping'
 import config from '@/service/config'
 
-export const Page = ({ searchParams }) => {
+export const Content = ({ searchParams }) => {
 
     const { TAG_ID } = config
 

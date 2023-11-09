@@ -1,7 +1,9 @@
-import { Page } from '@/components/Page'
+'use client'
+
+import { Content } from '@/components/Content'
 
 const App = props => {
-  return <Page {...props} />
+  return <Content {...props} />
 }
 
 App.displayName = 'MyApp'
