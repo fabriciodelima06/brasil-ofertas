@@ -33,7 +33,9 @@ const scraping = html => {
         }
     }
 
-    return data.sort((a, b) => a.product_price_number - b.product_price_number)
+    // data.sort((a, b) => a.product_price_number - b.product_price_number)
+
+    return data
 }
 
 export default scraping

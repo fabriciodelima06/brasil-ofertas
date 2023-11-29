@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 16px;
   overflow: hidden;
   // border: 1px solid #d1d1d1;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition-property: box-shadow;
   transition-duration: .2s;
@@ -23,10 +23,26 @@ const Container = styled.div`
     box-shadow: 0 4px 12px rgba(33,36,41,.141);
   }
 `
+
+const BadgeDeconto = styled.div`
+  height: 26px;
+  width: 87px;
+  background-color: #E67A00;
+  position: absolute;
+  top: 0;
+  left: 14px;
+  border-radius: 10px 0 0 0;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 const Img = styled.div`
   width: 100%;
   height: 40%;
-  margin-top: 12px;
+  margin-top: 18px;
   display: flex;
   justify-content: center;
 `
@@ -68,9 +84,20 @@ const Rating = styled.div`
 
 export const Card = ({ p, TAG_ID }) => {
 
+  const isDesconto = p.product_original_price_number > p.product_price_number
+  const percent = isDesconto
+    ? p.product_price_number / p.product_original_price_number * 100
+    : 0
+
   return (
     <a target='_blank' href={`${p.product_url}?&_encoding=UTF8&tag=${TAG_ID || 'fabriciodel0c-20'}`} rel="noreferrer" >
       <Container>
+
+        {isDesconto &&
+          <BadgeDeconto>
+            <span>{(100 - percent).toFixed(0)}% OFF</span>
+          </BadgeDeconto>}
+
         <Img>
           <img src={p.product_photo} alt={p.product_title} />
         </Img>
@@ -79,7 +106,7 @@ export const Card = ({ p, TAG_ID }) => {
           <Description>
             <Title title={p.product_title}>{p.product_title}</Title>
             <div>
-              {p.product_original_price_number > p.product_price_number &&
+              {isDesconto &&
                 <ValueOriginal>
                   {p.product_original_price}
                 </ValueOriginal>}
