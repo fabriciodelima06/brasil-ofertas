@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import axios from 'axios'
+import parse from "html-react-parser"
+import * as cheerio from 'cheerio'
 
 import { Card } from '@/components/Card'
 import Loading from '../../app/Loading'
@@ -7,97 +10,93 @@ import { Categorias } from '@/components/Categoria'
 import scraping from '@/service/scraping'
 import config from '@/service/config'
 
-export const Content = ({ searchParams }) => {
+export const Content = props => {
 
-    const { TAG_ID } = config
-
+    const pathname = usePathname()
     const [data, setData] = useState()
+    const { searchParams } = props
 
-    const k = searchParams.k || 'promocões'
-    const params = k === '' ? '?k=promocões' : `?k=${k}`
+    // const { TAG_ID } = config
+
 
     useEffect(() => {
 
-        axios.get(`/api/web${params}`)
+        axios.get(`/api/web${pathname}?s=${searchParams.s}`)
             .then(res => {
 
-                setData({ product: scraping(res.data) })
+                const $ = cheerio.load(res.data)
 
-                //   const html = res.data
-                //   const dom = new DOMParser().parseFromString(html, 'text/html')
-                //   const body = dom.querySelector('body')
+                //remover menu
+                $('div.main-menu').remove()
+                $('div.mobile-header-components').remove()
 
-                //   let produtoList = body.querySelectorAll('div[data-component-type="s-search-result"]')
-                //   produtoList = Array.from(produtoList)
+                //botao de pesquisa
+                $('li.search-bar > form').attr('action', 'http://localhost:3001')
+                $('form.search-form').attr('action', 'http://localhost:3001')
 
-                //   const newData = []
+                //remover span author
+                $('span.meta-author-wrapper').remove()
+                $('div.about-author').remove()
 
-                //   produtoList.map(produto => {
-                //     const img = produto.querySelector('img')
-                //     const title = produto.querySelector('.a-text-normal span')
-                //     const price = produto.querySelector('.a-price > span')
-                //     const priceOriginal = produto.querySelector('.a-text-price > span')
-                //     const url = `https://www.amazon.com.br/dp/${produto.getAttribute("data-asin")}`
+                // alterar links
+                $('a[href*="https://produtoreview.com.br"]').each((i, a) =>
+                    $(a).attr('href', $(a).attr('href').replace('https://produtoreview.com.br', 'http://localhost:3001')))
 
-                //     let star_rating
-                //     let num_ratings
-                //     Array.from(produto.querySelectorAll('span'))
-                //       .map(span => {
-                //         if ((span.ariaLabel || '').includes('estrelas')) {
-                //           const arr = span.parentElement.querySelectorAll(':scope > span')
-                //           //star_rating
-                //           star_rating = arr[0].ariaLabel.split(' ')[0].replace(',', '.')
-                //           //num_ratings
-                //           num_ratings = arr[1].ariaLabel
-                //         }
-                //       })
+                //Paginas no footer
+                $('div[id=pages-2]').parent().remove()
 
-                //     if (price) {
-                //       newData.push({
-                //         product_photo: img.src,
-                //         product_title: title.textContent,
-                //         product_price: price.textContent,
-                //         product_original_price: priceOriginal ? priceOriginal.textContent : null,
-                //         product_url: url,
-                //         product_star_rating: star_rating || 0,
-                //         product_num_ratings: num_ratings || 0,
-                //       })
-                //     }
+                //share button
+                $('div.share-buttons-sticky').remove()
+                $('div.share-buttons-mobile').remove()
+                $('div.mobile-share-buttons-spacer').remove()
 
-                //   })
+                //copyright-text
+                $('div.copyright-text > span').remove()
+                $('div.copyright-text > a').remove()
 
-                // setData({
-                //   product: newData,
-                // })
+                //alterar tag amazon
+                $('a[href*="https://www.amazon.com.br/"]').each((i, a) =>
+                    $(a).attr('href', $(a).attr('href').replace('produtoreview-20', 'fabriciodel0c-20')))
+
+                const page = parse($.root().html())
+
+                setData({ page })
+
+                // setData({ product: scraping(res.data) })
+
             })
             .catch(err => console.log(err))
     }, [])
 
     return (
-        <div id='content' className='site-content container' style={{ marginTop: '50px' }}>
-            <div className='main-content tie-col-sm-12 tie-col-lg-8' role='main'>
-                <div className='mag-box wide-post-box timeline-box'>
-                    <div className=''>
-                        <div className='mag-box-container clearfix'>
+        !data
+            ? <Loading />
+            : data.page
 
-                            {!data
-                                ? <Loading />
-                                : data.product.map(p => (
-                                    <div key={p.asin} className='tie-col-sm-6 tie-col-md-4'>
-                                        <Card p={p} TAG_ID={TAG_ID} />
-                                    </div>
-                                ))}
+        // <div id='content' className='site-content container' style={{ marginTop: '50px' }}>
+        //     <div className='main-content tie-col-sm-12 tie-col-lg-8' role='main'>
+        //         <div className='mag-box wide-post-box timeline-box'>
+        //             <div className=''>
+        //                 <div className='mag-box-container clearfix'>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+        //                     {!data
+        //                         ? <Loading />
+        //                         : data.product.map(p => (
+        //                             <div key={p.asin} className='tie-col-sm-6 tie-col-md-4'>
+        //                                 <Card p={p} TAG_ID={TAG_ID} />
+        //                             </div>
+        //                         ))}
 
-            <aside className='sidebar tie-col-sm-12 tie-col-lg-4 normal-side is-sticky is-alreay-loaded' style={{ position: 'relative', overflow: 'visible', boxSizing: 'border-box', minHeight: '1px' }}>
-                <div className='theiaStickySidebar'>
-                    <Categorias />
-                </div>
-            </aside>
-        </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </div>
+
+        //     <aside className='sidebar tie-col-sm-12 tie-col-lg-4 normal-side is-sticky is-alreay-loaded' style={{ position: 'relative', overflow: 'visible', boxSizing: 'border-box', minHeight: '1px' }}>
+        //         <div className='theiaStickySidebar'>
+        //             <Categorias />
+        //         </div>
+        //     </aside>
+        // </div>
     )
 }
