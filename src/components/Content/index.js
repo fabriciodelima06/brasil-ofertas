@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import axios from 'axios'
 import parse from "html-react-parser"
 import * as cheerio from 'cheerio'
@@ -13,11 +13,11 @@ import config from '@/service/config'
 export const Content = props => {
 
     const pathname = usePathname()
+    const router  = useRouter()
     const [data, setData] = useState()
     const { searchParams } = props
 
     // const { TAG_ID } = config
-
 
     useEffect(() => {
 
@@ -31,8 +31,8 @@ export const Content = props => {
                 $('div.mobile-header-components').remove()
 
                 //botao de pesquisa
-                $('li.search-bar > form').attr('action', 'http://localhost:3001')
-                $('form.search-form').attr('action', 'http://localhost:3001')
+                $('li.search-bar > form').attr('action', '')
+                $('form.search-form').attr('action', '')
 
                 //remover span author
                 $('span.meta-author-wrapper').remove()
@@ -40,7 +40,7 @@ export const Content = props => {
 
                 // alterar links
                 $('a[href*="https://produtoreview.com.br"]').each((i, a) =>
-                    $(a).attr('href', $(a).attr('href').replace('https://produtoreview.com.br', 'http://localhost:3001')))
+                    $(a).attr('href', $(a).attr('href').replace('https://produtoreview.com.br', '')))
 
                 //Paginas no footer
                 $('div[id=pages-2]').parent().remove()
